@@ -3,33 +3,38 @@
 echo "Self update apt-get"
 apt-get update
 
-echo "Installing git"
-apt-get install -y git
+echo "Cleaning up"
+apt-get autoremove -assume-y
 
 echo "Installing curl"
-apt-get install -y curl
+apt-get install --assume-y curl
 
 echo "Installing node and npm"
-#Instructions as per https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager (Vagrant runs in root/sudo mode already)
-apt-get install -y python-software-properties python g++ make
-# Default ubuntu version seems to be 0.6, latest as of July 2013 is 0.10.13
-# chris-lea is tracking latest node version, so we use that
-add-apt-repository ppa:chris-lea/node.js
-apt-get update
-apt-get install -y nodejs
+# Provides add-apt-repository (including for Ubuntu 12.10)
+apt-get install --assume-yes python-software-properties
+apt-get install --assume-yes software-properties-common
+
+# Needed for nodejs.
+curl -sL https://deb.nodesource.com/setup_5.x | bash -
+
+# install required packages
+echo "Installing Node.js..."
+apt-get install --assume-yes nodejs
+apt-get clean
 # nodejs above includes npm --- apt-get install -y npm
 
-echo "Install grunt dependencies"
-npm install -g coffee-script
-npm install -g grunt-cli
+echo "Checking Node.js and NPM versions"
+node --version && npm --version
 
-echo "Installing Yeoman and generators"
-npm install -g yo
-npm install -g generator-webapp
-npm install -g generator-angular
+echo "Updating NPM"
+npm install --global npm@latest
 
-echo "Installing compass support"
-gem update --system
-gem install compass --no-ri --no-rdoc
+echo "Install Yeoman toolbelt dependencies"
+npm install --global yo
+npm install --global bower
+npm install --global grunt-cli
+
+echo "Confirming installation"
+yo --version && bower --version && grunt --version
 
 
