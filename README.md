@@ -14,5 +14,4 @@ Setting up Yeoman development environment under Vagrant. Basic steps:
 9. Load **http://localhost:9000/** on your host machine - ports are forwarded
 10. Run `grunt` to compile production version of the website
 11. `exit` from the VM
-15. Run `vagrant suspend` to stop VM running (this command will save the state of the VM - equivalent to putting your computer in **standby** or **sleep** mode
-
+15. Run `vagrant suspend` to stop VM running (this command will save the state of the VM - equivalent to putting your computer in **standby** or **sleep** mode)
