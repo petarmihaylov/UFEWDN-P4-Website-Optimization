@@ -1,0 +1,1 @@
+vagrant package --vagrantfile ./box/Vagrantfile --output vagrant-yeoman.box

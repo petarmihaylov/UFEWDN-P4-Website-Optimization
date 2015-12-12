@@ -1,40 +1,122 @@
 #!/usr/bin/env bash
+# Save backups of FD's
+exec 5>&1
+exec 6>&2
 
+start_seconds="$(date +%s)"
+echo "Provisioning has started...	"
+
+ping_result="$(ping -c 2 8.8.4.4 2>&1)"
+if [[ $ping_result != *bytes?from* ]]; then
+	echo "Network connection unavailable. Try again later."
+    exit 1
+fi
+
+# log the output to files
 echo "Self update apt-get"
+# Redirect into files
+exec 1>/vagrant/provision-stdout.log
+exec 2>/vagrant/provision-stderr.log
+
 apt-get update
 
-echo "Cleaning up"
-apt-get autoremove -assume-y
-
+# Restore to terminal
+exec 1>&5
+exec 2>&6
 echo "Installing curl"
-apt-get install --assume-y curl
+# Redirect into files
+exec 1>>/vagrant/provision-stdout.log
+exec 2>>/vagrant/provision-stderr.log
 
-echo "Installing node and npm"
+apt-get install --assume-yes curl
+
+# Restore to terminal
+exec 1>&5
+exec 2>&6
+echo "Installing git-core"
+# Redirect into files
+exec 1>>/vagrant/provision-stdout.log
+exec 2>>/vagrant/provision-stderr.log
+
+apt-get install --assume-yes git-core
+
+# Restore to terminal
+exec 1>&5
+exec 2>&6
+echo "Installing required packages"
+# Redirect into files
+exec 1>>/vagrant/provision-stdout.log
+exec 2>>/vagrant/provision-stderr.log
+
 # Provides add-apt-repository (including for Ubuntu 12.10)
 apt-get install --assume-yes python-software-properties
 apt-get install --assume-yes software-properties-common
 
 # Needed for nodejs.
-curl -sL https://deb.nodesource.com/setup_5.x | bash -
+curl -sL https://deb.nodesource.com/setup_4.x | bash -
 
-# install required packages
+# Restore to terminal
+exec 1>&5
+exec 2>&6
 echo "Installing Node.js..."
+# Redirect into files
+exec 1>>/vagrant/provision-stdout.log
+exec 2>>/vagrant/provision-stderr.log
+
 apt-get install --assume-yes nodejs
-apt-get clean
 # nodejs above includes npm --- apt-get install -y npm
 
-echo "Checking Node.js and NPM versions"
-node --version && npm --version
+# Restore to terminal
+exec 1>&5
+exec 2>&6
+echo "Cleaning up"
+# Redirect into files
+exec 1>>/vagrant/provision-stdout.log
+exec 2>>/vagrant/provision-stderr.log
 
-echo "Updating NPM"
-npm install --global npm@latest
+apt-get autoremove --assume-yes
+apt-get clean
 
-echo "Install Yeoman toolbelt dependencies"
-npm install --global yo
-npm install --global bower
-npm install --global grunt-cli
+# Restore to terminal
+exec 1>&5
+exec 2>&6
+echo "Downloading npm permission fix script..."
+# Redirect into files
+exec 1>>/vagrant/provision-stdout.log
+exec 2>>/vagrant/provision-stderr.log
 
-echo "Confirming installation"
-yo --version && bower --version && grunt --version
+curl -sLo /vagrant/bootstrap.sh https://raw.githubusercontent.com/glenpike/npm-g_nosudo/master/npm-g-nosudo.sh 
+chmod +x /vagrant/bootstrap.sh
 
+# Restore to terminal
+exec 1>&5
+exec 2>&6
+echo "Setting up symlinks"
+# Redirect into files
+exec 1>>/vagrant/provision-stdout.log
+exec 2>>/vagrant/provision-stderr.log
 
+cd /home/vagrant/
+ln -s /vagrant/bootstrap.sh bootstrap
+chmod +x bootstrap
+ln -s /vagrant/update-toolset.sh update-toolset
+chmod +x update-toolset
+
+# Restore to terminal
+exec 1>&5
+exec 2>&6
+end_seconds="$(date +%s)"
+echo "-----------------------------"
+echo "Provisioning complete in "$(expr $end_seconds - $start_seconds)" seconds"
+echo "-----------------------------"
+echo " "
+echo "Remember to run:"
+echo " "
+echo "vagrant ssh"
+echo "./bootstrap"
+echo "source ~/.bashrc"
+echo "./update-toolset"
+echo " "
+echo "This will move the npm root to the vagrant" 
+echo "user's home directory and update Yeoman, Bower, and Grunt."
+echo " "
