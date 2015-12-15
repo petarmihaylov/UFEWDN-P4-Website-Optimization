@@ -9,6 +9,12 @@ Vagrant.configure("2") do |config|
   # set auto_update to false, if do NOT want to check the correct additions
   # version when booting this machine
   config.vbguest.auto_update = false
+  
+  # Controls the memory and cpus of a box
+  config.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--cpus", "2"]
+  end
 
   # Controls the memory and cpus of a box
   config.vm.provider :virtualbox do |vb|
