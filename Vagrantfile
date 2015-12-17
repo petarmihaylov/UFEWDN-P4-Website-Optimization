@@ -16,12 +16,6 @@ Vagrant.configure("2") do |config|
     vb.customize ["modifyvm", :id, "--cpus", "2"]
   end
 
-  # Controls the memory and cpus of a box
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
-    vb.customize ["modifyvm", :id, "--cpus", "2"]
-  end
-
   # Port 9000 is where grunt server is doing serving from
   config.vm.network :forwarded_port, guest: 9000, host: 9000
   # Port 35729 is required by LiveReload to reflect content chaenges
