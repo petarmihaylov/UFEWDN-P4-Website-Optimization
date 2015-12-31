@@ -48,7 +48,8 @@ echo "Installing required packages"
 exec 1>>/vagrant/provision-stdout.log
 exec 2>>/vagrant/provision-stderr.log
 
-# Provides add-apt-repository (including for Ubuntu 12.10)
+# Provides essential build tools
+apt-get install --assume-yes build-essential
 apt-get install --assume-yes python-software-properties
 apt-get install --assume-yes software-properties-common
 
