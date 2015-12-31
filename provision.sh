@@ -102,6 +102,8 @@ ln -s /vagrant/bootstrap.sh bootstrap
 chmod +x bootstrap
 ln -s /vagrant/update-toolset.sh update-toolset
 chmod +x update-toolset
+ls -s /vagrant/update-toolset-gulp.sh update-toolset-gulp
+chmod +x update-toolset-gulp
 
 # Restore to terminal
 exec 1>&5
