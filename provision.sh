@@ -86,7 +86,7 @@ echo "Downloading npm permission fix script..."
 exec 1>>/vagrant/provision-stdout.log
 exec 2>>/vagrant/provision-stderr.log
 
-curl -sLo /vagrant/bootstrap.sh https://raw.githubusercontent.com/glenpike/npm-g_nosudo/master/npm-g-nosudo.sh 
+curl -sLo /vagrant/bootstrap.sh https://raw.githubusercontent.com/glenpike/npm-g_nosudo/master/npm-g-nosudo.sh
 chmod +x /vagrant/bootstrap.sh
 
 # Restore to terminal
@@ -102,7 +102,7 @@ ln -s /vagrant/bootstrap.sh bootstrap
 chmod +x bootstrap
 ln -s /vagrant/update-toolset.sh update-toolset
 chmod +x update-toolset
-ls -s /vagrant/update-toolset-gulp.sh update-toolset-gulp
+ln -s /vagrant/update-toolset-gulp.sh update-toolset-gulp
 chmod +x update-toolset-gulp
 
 # Restore to terminal
