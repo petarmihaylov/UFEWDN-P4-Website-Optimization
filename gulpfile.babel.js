@@ -175,6 +175,7 @@ gulp.task('serve', ['scripts', 'styles'], () => {
     //       will present a certificate warning in the browser.
     // https: true,
     server: ['.tmp', 'app'],
+    host: '192.168.0.199',
     port: 3000
   });
 
@@ -196,6 +197,7 @@ gulp.task('serve:dist', ['default'], () =>
     //       will present a certificate warning in the browser.
     // https: true,
     server: 'dist',
+    host: '192.168.0.199',
     port: 3001
   })
 );
@@ -254,6 +256,14 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
     // Translates a static file path to the relative URL that it's served from.
     stripPrefix: path.join(rootDir, path.sep)
   });
+});
+
+// Deploy to GH Pages with Gulp
+var ghPages = require('gulp-gh-pages');
+
+gulp.task('deploy', function() {
+  return gulp.src('./dist/**/*')
+    .pipe(ghPages());
 });
 
 // Load custom tasks from the `tasks` directory
