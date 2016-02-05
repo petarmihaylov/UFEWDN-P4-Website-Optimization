@@ -109,9 +109,8 @@ gulp.task('scripts', () =>
       // Note: Since we are not using useref in the scripts build pipeline,
       //       you need to explicitly list your scripts here in the right order
       //       to be correctly concatenated
-      './app/scripts/main.js',
+      './app/scripts/main.js'
       // Other scripts
-      './app/scripts/perfmatters.js'
     ])
       .pipe($.newer('.tmp/scripts'))
       .pipe($.sourcemaps.init())
@@ -207,7 +206,7 @@ gulp.task('serve:dist', ['default'], () =>
 gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
-    ['lint', 'html', 'scripts', 'images', 'copy'],
+    ['lint', 'html', 'scripts', 'images', 'copy', 'images-views', 'copy-views-directories', 'copy-perfmatters'],
     'generate-service-worker',
     cb
   )
@@ -259,6 +258,9 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
   });
 });
 
+/////////////////////////
+////// CUSTOM TASKS /////
+
 // Deploy to GH Pages with Gulp
 var ghPages = require('gulp-gh-pages');
 
@@ -266,6 +268,50 @@ gulp.task('deploy', function() {
   return gulp.src('./dist/**/*')
     .pipe(ghPages());
 });
+
+// Optimize views images
+var responsive = require('gulp-responsive-images');
+
+gulp.task('images-views', function () {
+  gulp.src('app/views/images/**/*')
+    .pipe(responsive({
+      'pizzeria.jpg': [{
+        width: 100,
+        suffix: '-100'
+        }, {
+        width: 100 * 2,
+        suffix: '-100-2x'
+        }, {
+        width: 600,
+        suffix: '-600'
+        }, {
+        width: 600 * 2,
+        suffix: '-600-2x'
+      }]
+    }))
+    .pipe(gulp.dest('dist/views/images'));
+});
+
+
+// Copy all directories in views
+gulp.task('copy-views-directories', () =>
+  gulp.src([
+    'app/views/**/*.*'
+  ], {
+    dot: true
+  }).pipe(gulp.dest('dist/views'))
+    .pipe($.size({title: 'copy'}))
+);
+
+// Copy perfmatters.js directories in views
+gulp.task('copy-perfmatters', () =>
+  gulp.src([
+    'app/scripts/perfmatters.js'
+  ], {
+    dot: true
+  }).pipe(gulp.dest('dist/scripts'))
+    .pipe($.size({title: 'perfmatters.js'}))
+);
 
 // Load custom tasks from the `tasks` directory
 // Run: `npm install --save-dev require-dir` from the command-line
