@@ -6,10 +6,6 @@ Vagrant.configure("2") do |config|
   # Standard minimal Ubuntu box
   config.vm.box = "ubuntu/trusty64"
 
-  # set auto_update to false, if do NOT want to check the correct additions
-  # version when booting this machine
-  config.vbguest.auto_update = false
-
   # Controls the memory and cpus of a box
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
