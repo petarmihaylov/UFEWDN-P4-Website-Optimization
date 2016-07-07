@@ -1,2 +1,6 @@
 .vagrant
 *.box
+node_modules
+dist/
+.tmp
+app.yaml
