@@ -3,10 +3,9 @@
 echo "Updating npm..."
 npm install --global npm@latest
 
-echo "Install Yeoman toolbelt dependencies"
-npm install --global yo
+echo "Install Bower and Gulp"
 npm install --global bower
 npm install --global gulp
 
 echo "Confirming installation"
-yo --version && bower --version && gulp --version
+bower --version && gulp --version

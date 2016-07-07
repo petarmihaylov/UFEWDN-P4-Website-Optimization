@@ -100,8 +100,6 @@ exec 2>>/vagrant/provision-stderr.log
 cd /home/vagrant/
 ln -s /vagrant/bootstrap.sh bootstrap
 chmod +x bootstrap
-ln -s /vagrant/update-toolset.sh update-toolset
-chmod +x update-toolset
 ln -s /vagrant/update-toolset-gulp.sh update-toolset-gulp
 chmod +x update-toolset-gulp
 
@@ -118,8 +116,8 @@ echo " "
 echo "vagrant ssh"
 echo "./bootstrap"
 echo "source ~/.bashrc"
-echo "./update-toolset"
+echo "./update-toolset-gulp"
 echo " "
-echo "This will move the npm root to the vagrant" 
-echo "user's home directory and update Yeoman, Bower, and Grunt."
+echo "This will move the npm root to the vagrant"
+echo "user's home directory and update Bower and Gulp."
 echo " "
