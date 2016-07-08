@@ -128,19 +128,10 @@ gulp.task('scripts', () =>
 // Scan your HTML for assets & optimize them
 gulp.task('html', () => {
   return gulp.src('app/**/*.html')
-    .pipe($.useref({searchPath: '{.tmp,app}'}))
-    // Remove any unused CSS
-    .pipe($.if('*.css', $.uncss({
-      html: [
-        'app/index.html'
-      ],
-      // CSS Selectors for UnCSS to ignore
-      ignore: []
-    })))
-
-    // Concatenate and minify styles
-    // In case you are still using useref build blocks
-    .pipe($.if('*.css', $.cssnano()))
+    .pipe($.useref({
+      searchPath: '{.tmp,app}',
+      noAssets: true
+    }))
 
     // Minify any HTML
     .pipe($.if('*.html', $.htmlmin({
@@ -175,7 +166,6 @@ gulp.task('serve', ['scripts', 'styles'], () => {
     //       will present a certificate warning in the browser.
     // https: true,
     server: ['.tmp', 'app'],
-    host: '192.168.0.17',
     port: 3000
   });
 
@@ -197,7 +187,6 @@ gulp.task('serve:dist', ['default'], () =>
     //       will present a certificate warning in the browser.
     // https: true,
     server: 'dist',
-    host: '192.168.0.177',
     port: 3001
   })
 );
@@ -206,7 +195,7 @@ gulp.task('serve:dist', ['default'], () =>
 gulp.task('default', ['clean'], cb =>
   runSequence(
     'styles',
-    ['lint', 'html', 'scripts', 'images', 'copy', 'images-views', 'copy-views-directories', 'copy-perfmatters'],
+    ['lint', 'html', 'scripts', 'images', 'copy'],
     'generate-service-worker',
     cb
   )
@@ -215,7 +204,7 @@ gulp.task('default', ['clean'], cb =>
 // Run PageSpeed Insights
 gulp.task('pagespeed', cb =>
   // Update the below URL to the public URL of your site
-  pagespeed('http://petarmihaylov.github.io/UFEWDN-P4-Website-Optimization/', {
+  pagespeed('example.com', {
     strategy: 'mobile'
     // By default we use the PageSpeed Insights free (no API key) tier.
     // Use a Google Developer API key if you have one: http://goo.gl/RkN0vE
@@ -259,66 +248,7 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
     stripPrefix: rootDir + '/'
   });
 });
-    stripPrefix: path.join(rootDir, path.sep)
-  });
-});
 
-/////////////////////////
-////// CUSTOM TASKS /////
-
-// Deploy to GH Pages with Gulp
-var ghPages = require('gulp-gh-pages');
-
-gulp.task('deploy', function() {
-  return gulp.src('./dist/**/*')
-    .pipe(ghPages());
-});
-
-// Optimize views images
-var responsive = require('gulp-responsive-images');
-
-gulp.task('images-views', function () {
-  gulp.src('app/views/images/**/*')
-    .pipe(responsive({
-      'pizzeria.jpg': [{
-        width: 100,
-        suffix: '-100'
-        }, {
-        width: 100 * 2,
-        suffix: '-100-2x'
-        }, {
-        width: 600,
-        suffix: '-600'
-        }, {
-        width: 600 * 2,
-        suffix: '-600-2x'
-      }]
-    }))
-    .pipe(gulp.dest('dist/views/images'));
-});
-
-
-// Copy all directories in views
-gulp.task('copy-views-directories', () =>
-  gulp.src([
-    'app/views/**/*.*'
-  ], {
-    dot: true
-  }).pipe(gulp.dest('dist/views'))
-    .pipe($.size({title: 'copy'}))
-);
-
-// Copy perfmatters.js directories in views
-gulp.task('copy-perfmatters', () =>
-  gulp.src([
-    'app/scripts/perfmatters.js'
-  ], {
-    dot: true
-  }).pipe(gulp.dest('dist/scripts'))
-    .pipe($.size({title: 'perfmatters.js'}))
-);
-
->>>>>>> cd40fd8820b263abf8484531bde2b18900169bc9
 // Load custom tasks from the `tasks` directory
 // Run: `npm install --save-dev require-dir` from the command-line
 // try { require('require-dir')('tasks'); } catch (err) { console.error(err); }

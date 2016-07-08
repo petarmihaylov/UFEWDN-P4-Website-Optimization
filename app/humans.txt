@@ -3,7 +3,7 @@
 
 # TEAM
 
-  <name> -- <role> -- <twitter>
+  Petar Mihaylov -- Web Developer
 
 # THANKS
 
@@ -11,4 +11,4 @@
 
 # TECHNOLOGY COLOPHON
 
-  HTML5, CSS3
+  HTML5, CSS3, JavaScript
