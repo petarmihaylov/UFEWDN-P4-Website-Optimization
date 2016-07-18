@@ -1,6 +1,5 @@
-.vagrant
-*.box
 node_modules
+.publish
 dist/
 .tmp
 app.yaml
