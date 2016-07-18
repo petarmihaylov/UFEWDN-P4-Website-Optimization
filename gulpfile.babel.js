@@ -279,16 +279,39 @@ gulp.task('images-views', function () {
     .pipe(responsive({
       'pizzeria.jpg': [{
         width: 100,
-        suffix: '-100'
+        suffix: '-100',
+        quality: '80'
         }, {
         width: 100 * 2,
-        suffix: '-100-2x'
+        suffix: '-100-2x',
+        quality: '80'
         }, {
-        width: 600,
-        suffix: '-600'
+        width: 300,
+        suffix: '-300',
+        quality: '80'
         }, {
-        width: 600 * 2,
-        suffix: '-600-2x'
+        width: 300 * 2,
+        suffix: '-300-2x',
+        quality: '80'
+        }, {
+        width: 450,
+        suffix: '-450',
+        quality: '80'
+        }, {
+        width: 450 * 2,
+        suffix: '-450-2x',
+        quality: '80'
+        }, {
+        width: 720,
+        suffix: '-720',
+        quality: '80'
+        }, {
+        width: 720 * 2,
+        suffix: '-720-2x',
+        quality: '80'
+        }, {
+        width: 720 * 2,
+        quality: '60'
       }]
     }))
     .pipe(gulp.dest('dist/views/images'));
