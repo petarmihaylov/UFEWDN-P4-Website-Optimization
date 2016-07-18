@@ -175,7 +175,7 @@ gulp.task('serve', ['scripts', 'styles'], () => {
     //       will present a certificate warning in the browser.
     // https: true,
     server: ['.tmp', 'app'],
-    host: '192.168.0.17',
+    host: '192.168.0.177',
     port: 3000
   });
 
