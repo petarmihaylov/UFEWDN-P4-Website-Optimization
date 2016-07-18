@@ -259,9 +259,6 @@ gulp.task('generate-service-worker', ['copy-sw-scripts'], () => {
     stripPrefix: rootDir + '/'
   });
 });
-    stripPrefix: path.join(rootDir, path.sep)
-  });
-});
 
 /////////////////////////
 ////// CUSTOM TASKS /////
@@ -318,7 +315,6 @@ gulp.task('copy-perfmatters', () =>
     .pipe($.size({title: 'perfmatters.js'}))
 );
 
->>>>>>> cd40fd8820b263abf8484531bde2b18900169bc9
 // Load custom tasks from the `tasks` directory
 // Run: `npm install --save-dev require-dir` from the command-line
 // try { require('require-dir')('tasks'); } catch (err) { console.error(err); }
