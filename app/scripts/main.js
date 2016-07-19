@@ -37,7 +37,6 @@
       (window.location.protocol === 'https:' || isLocalhost)) {
     navigator.serviceWorker.register('service-worker.js')
     .then(function(registration) {
-      
       // Check to see if there's an updated version of service-worker.js with
       // new files to cache:
       // https://slightlyoff.github.io/ServiceWorker/spec/service_worker/index.html#service-worker-registration-update-method
