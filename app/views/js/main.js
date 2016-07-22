@@ -459,13 +459,13 @@ var resizePizzas = function(size) {
   // }
 
   function changePizzaSizes(size) {
-    var pizza = document.querySelector(".randomPizzaContainer");
+    var els = document.getElementsByClassName("randomPizzaContainer");
+    var pizza = els[0]; // All pizza sizes are the same
     var dx = determineDx(pizza, size);
     var newwidth = (pizza.offsetWidth + dx) + 'px'; // All pizza sizes are the same
-    var els = document.getElementsByClassName("randomPizzaContainer");
     console.log(newwidth);
     for (var i = 0; i < els.length; i++) {
-      document.getElementsByClassName("randomPizzaContainer")[i].style.width = newwidth;
+      els[i].style.width = newwidth;
     }
   }
 
